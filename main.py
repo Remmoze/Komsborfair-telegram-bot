@@ -1,6 +1,10 @@
 from bot import Telegram_Bot
 
-lala = Telegram_Bot("1607288526:AAEyNWTswq18k0CITSpfXs8Ex84KLpJ39n4")
+fs = open("token.config", "r", encoding='utf-8')
+token = fs.read()
+fs.close()
+
+lala = Telegram_Bot(token)
 resp = lala.validate()
 
 print()
