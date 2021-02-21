@@ -50,11 +50,13 @@ class Telegram_Bot:
 
     def reply_default(self, user_id):
         kb = keyboard()
+        kb.add_button("/Новый товар")
         kb.add_button("/Изменить название товара")
         kb.add_button("/Изменить количество товара")
         kb.add_button("/Изменить короткое описание")
         kb.add_button("/Изменить описание")
         kb.add_button("/Изменить фотографию")
+        kb.add_button("/Отправить!")
 
         product = self.storage.get_or_create_pending_product(user_id)
 
