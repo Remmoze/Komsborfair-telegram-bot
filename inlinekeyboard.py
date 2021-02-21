@@ -11,8 +11,9 @@ class keyboard:
     def build(self):
         #ReplyKeyboardMarkup
         return json.dumps({
-            "keyboard": [self.buttons],
-            "one_time_keyboard": True
+            "keyboard": [[button] for button in self.buttons],
+            "one_time_keyboard": True,
+            "resize_keyboard": True
         })
 
     

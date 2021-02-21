@@ -5,8 +5,8 @@ token = fs.read()
 fs.close()
 
 lala = Telegram_Bot(token)
-resp = lala.validate()
+response = lala.validate()
 
-print()
+print("\nBOT - [" + str(response["id"]) + "] " + response["first_name"] + '\n')
 
 lala.start()

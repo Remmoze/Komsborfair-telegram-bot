@@ -12,8 +12,7 @@ class Telegram_Bot:
         self.pulls = pull_requests(self, self.CommandHandler.handle_updates)
 
     def validate(self):
-        response = self.send_request("getMe")
-        print("BOT - [" + str(response["id"]) + "] " + response["first_name"])
+        return self.send_request("getMe")
 
     def start(self):
         self.pulls.begin_pull()
@@ -27,11 +26,6 @@ class Telegram_Bot:
             print("[ERROR]: ", response)
             raise Exception("Invalid Response")
         return response["result"]
-
-    def getFile(self, file_path):
-        url = "https://api.telegram.org/file/bot" + self.token + "/" + file_path
-        print("[GET FILE]", url)
-        return requests.get(url).content
 
     def reply(self, user_id, message):
         print("[MESSAGE TO", str(user_id), "]", message)
@@ -52,10 +46,24 @@ class Telegram_Bot:
         self.reply(user_id, "Создаю новый файл..")
         self.storage.create_new_pending_product(user_id)
 
-        self.print_current_product(user_id)
+        self.reply_default(user_id)
 
-    def print_current_product(self, user_id):
+    def reply_default(self, user_id):
+        kb = keyboard()
+        kb.add_button("/Изменить название товара")
+        kb.add_button("/Изменить количество товара")
+        kb.add_button("/Изменить короткое описание")
+        kb.add_button("/Изменить описание")
+        kb.add_button("/Изменить фотографию")
+
         product = self.storage.get_or_create_pending_product(user_id)
-        self.reply_with_product(user_id, product.print())
+
+        self.send_request("sendMessage", {
+            "chat_id": user_id,
+            "text": product.print(),
+            "parse_mode": "MarkdownV2",
+            "reply_markup": kb.build()
+        })
+
 
 
