@@ -2,6 +2,7 @@ import requests
 from pull_requests import pull_requests
 from storage import Storage
 from commands import Commands
+from inlinekeyboard import keyboard
 
 class Telegram_Bot:
     def __init__(self, token):

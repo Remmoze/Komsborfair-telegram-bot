@@ -24,16 +24,7 @@ class Commands:
             self.handle_command(user_id, text)
         else:
             pass
-    
-    def handle_query(self, query):
-        user_id = query["from"]["id"]
-        product = self.bot.storage.get_or_create_pending_product(user_id)
-        command = query["data"]
-        if(command == "KCF"):
-            self.bot.print_current_product(user_id)
-        elif(command == "CNF"):
-            self.bot.create_new_product(user_id)
-    
+
     def handle_command(self, user_id, command):
         if(command == "/create"):
             product = self.bot.storage.get_or_create_pending_product(user_id)
@@ -41,11 +32,15 @@ class Commands:
                 self.prompt_to_create_new(user_id)
                 return
             self.bot.create_new_product(user_id)
+        elif(command == "/Оставить этот."):
+            self.bot.print_current_product(user_id)
+        elif(command == "/Новый."):
+            self.bot.create_new_product(user_id)
 
     def prompt_to_create_new(self, user_id):
         kb = keyboard()
-        kb.add_button("Новый.", "CNF") #Create New File
-        kb.add_button("Оставить этот.", "KCF") #Keep Current Fle
+        kb.add_button("/Новый.") #Create New File
+        kb.add_button("/Оставить этот.") #Keep Current Fle
 
         self.bot.send_request("sendMessage", {
             "chat_id": user_id,

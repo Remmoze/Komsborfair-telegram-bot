@@ -4,14 +4,15 @@ class keyboard:
     def __init__(self):
         self.buttons = []
 
-    def add_button(self, text, callbackinfo):
-        button = {
-            "text":text,
-            "callback_data": callbackinfo
-        }
+    def add_button(self, text):
+        button = {"text":text}
         self.buttons.append(button)
 
     def build(self):
-        return json.dumps({"inline_keyboard": [self.buttons]})
+        #ReplyKeyboardMarkup
+        return json.dumps({
+            "keyboard": [self.buttons],
+            "one_time_keyboard": True
+        })
 
     
