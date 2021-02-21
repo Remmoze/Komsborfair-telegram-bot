@@ -6,9 +6,3 @@ resp = lala.validate()
 print()
 
 lala.start()
-"""
-from storage import Storage
-
-st = Storage()
-st.create_or_get_pending_product(123)
-"""
