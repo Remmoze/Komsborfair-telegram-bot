@@ -28,6 +28,11 @@ class Telegram_Bot:
             raise Exception("Invalid Response")
         return response["result"]
 
+    def getFile(self, file_path):
+        url = "https://api.telegram.org/file/bot" + self.token + "/" + file_path
+        print("[GET FILE]", url)
+        return requests.get(url).content
+
     def reply(self, user_id, message):
         print("[MESSAGE TO", str(user_id), "]", message)
         self.send_request("sendMessage", {

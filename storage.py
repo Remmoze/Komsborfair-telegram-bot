@@ -24,7 +24,3 @@ class Storage:
     def __add_to_cache(self, user_id, product):
         user_id = str(user_id)
         self.cache[user_id] = product
-        
-    def test(self):
-        print("test")
-    

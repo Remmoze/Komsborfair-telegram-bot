@@ -14,11 +14,36 @@ class Commands:
             else:
                 print("[UPDATE]", update)
 
+    def handle_photo_update(self, user_id, message):
+        file_id = ""
+        if("photo" in message):
+            self.bot.reply(user_id, "Качество фото будет лучше, если вы отправите его файлом, а не фотографией!")
+            file_id = message["photo"][0]["file_id"]
+        
+        if("document" in message):
+            file_id = message["document"]["file_id"]
+        
+        response = self.bot.send_request("getFile", {"file_id": file_id})
+        path = response["file_path"]
+        file_format = path.split('.')[-1]
+        image = self.bot.getFile(path)
+
+        fs = open(str(user_id) + "." + file_format, "wb")
+        fs.write(image)
+        fs.close()
+
     def handle_message(self, message):
         user_id = message["from"]["id"]
-        text = message["text"]
+
+        if("photo" in message or "document" in message):
+            self.handle_photo_update(user_id, message)
+            return
+
+        text = ""
+        if("text" in message):
+            text = message["text"]
         
-        print("[MESSAGE FROM " + str(user_id) + "]", text)
+        print("[MESSAGE FROM " + str(user_id) + "]", message)
 
         if(text.startswith('/')):
             self.handle_command(user_id, text)
